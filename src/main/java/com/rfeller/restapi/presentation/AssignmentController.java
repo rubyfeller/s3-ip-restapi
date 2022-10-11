@@ -19,6 +19,11 @@ public class AssignmentController {
     @Autowired
     private AssignmentService assignmentService;
 
+    @GetMapping(path = "/private")
+    public @ResponseBody String testEndPoint() {
+        return "You should only see this if logged in.";
+    }
+
     @PostMapping(path = "/add")
     public ResponseEntity<String> addAssignment(@Valid @RequestBody AssignmentDTO assignmentDTO) {
         assignmentService.addAssignment(assignmentDTO);
@@ -26,26 +31,22 @@ public class AssignmentController {
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody
-    Iterable<AssignmentDTO> getAllAssignments() {
+    public @ResponseBody Iterable<AssignmentDTO> getAllAssignments() {
         return assignmentService.getAll();
     }
 
     @GetMapping(path = "/{id}")
-    public @ResponseBody
-    AssignmentDTO getAssignmentById(@PathVariable Integer id) {
+    public @ResponseBody AssignmentDTO getAssignmentById(@PathVariable Integer id) {
         return assignmentService.getById(id);
     }
 
     @PutMapping(path = "/update/{id}")
-    public @ResponseBody
-    AssignmentDTO updateAssignment(@PathVariable Integer id, @RequestBody AssignmentDTO assignmentDTO) {
+    public @ResponseBody AssignmentDTO updateAssignment(@Valid @PathVariable Integer id, @RequestBody AssignmentDTO assignmentDTO) {
         return assignmentService.update(id, assignmentDTO);
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    public @ResponseBody
-    String deleteAssignment(@PathVariable Integer id) {
+    public @ResponseBody String deleteAssignment(@Valid @PathVariable Integer id) {
         return assignmentService.delete(id);
     }
 
