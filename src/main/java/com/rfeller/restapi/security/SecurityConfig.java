@@ -28,6 +28,7 @@ public class SecurityConfig {
         an OAuth2 Resource Server, using JWT validation.
         */
         http.authorizeRequests()
+                .mvcMatchers("/assignment/").permitAll()
                 .mvcMatchers("/assignment/public").permitAll()
                 .mvcMatchers("/assignment/private").authenticated()
                 .mvcMatchers("/assignment/private-scoped").hasAuthority("SCOPE_read:messages")

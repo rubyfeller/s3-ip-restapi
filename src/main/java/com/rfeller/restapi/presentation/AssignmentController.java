@@ -19,11 +19,6 @@ public class AssignmentController {
     @Autowired
     private AssignmentService assignmentService;
 
-    @GetMapping(path = "/private")
-    public @ResponseBody String testEndPoint() {
-        return "You should only see this if logged in.";
-    }
-
     @PostMapping(path = "/add")
     public ResponseEntity<String> addAssignment(@Valid @RequestBody AssignmentDTO assignmentDTO) {
         assignmentService.addAssignment(assignmentDTO);
