@@ -20,7 +20,12 @@ public class Assignment {
     private String description;
 
     @NotNull(message = "No userId given")
-    private Integer userId;
+    private String userId;
+
+    @NotNull(message = "No creator given")
+    private String creator;
+
+    private String executor;
 
     public Integer getId() {
         return id;
@@ -30,12 +35,28 @@ public class Assignment {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(String executor) {
+        this.executor = executor;
     }
 
     public String getTitle() {

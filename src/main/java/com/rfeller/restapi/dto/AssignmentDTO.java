@@ -16,5 +16,10 @@ public class AssignmentDTO {
     private String description;
 
     @NotNull(message = "No userId given")
-    private Integer userId;
+    private String userId;
+
+    @NotNull(message = "No creator given")
+    private String creator;
+
+    private String executor;
 }

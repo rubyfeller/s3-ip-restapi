@@ -1,6 +1,7 @@
 package com.rfeller.restapi.logic;
 
 import com.rfeller.restapi.dto.AssignmentDTO;
+import com.rfeller.restapi.dto.AssignmentExecutorPOJO;
 
 public interface AssignmentService {
     AssignmentDTO addAssignment(AssignmentDTO assignmentDTO);
@@ -8,6 +9,8 @@ public interface AssignmentService {
     Iterable<AssignmentDTO> getAll();
 
     AssignmentDTO getById(Integer id);
+
+    AssignmentExecutorPOJO acceptAssignment(Integer id, AssignmentExecutorPOJO executor);
 
     String delete(Integer id);
 

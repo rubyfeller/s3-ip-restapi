@@ -1,6 +1,7 @@
 package com.rfeller.restapi.presentation;
 
 import com.rfeller.restapi.dto.AssignmentDTO;
+import com.rfeller.restapi.dto.AssignmentExecutorPOJO;
 import com.rfeller.restapi.logic.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ public class AssignmentController {
     @GetMapping(path = "/{id}")
     public @ResponseBody AssignmentDTO getAssignmentById(@PathVariable Integer id) {
         return assignmentService.getById(id);
+    }
+
+    @PostMapping(path = "/accept/{id}")
+    public AssignmentExecutorPOJO acceptAssignment(@Valid @PathVariable Integer id, @RequestBody AssignmentExecutorPOJO executor) {
+        return assignmentService.acceptAssignment(id, executor);
     }
 
     @PutMapping(path = "/update/{id}")

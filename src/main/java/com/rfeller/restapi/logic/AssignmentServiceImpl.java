@@ -4,6 +4,8 @@ import com.rfeller.restapi.converter.AssignmentConverter;
 import com.rfeller.restapi.dal.AssignmentRespository;
 import com.rfeller.restapi.dal.models.Assignment;
 import com.rfeller.restapi.dto.AssignmentDTO;
+import com.rfeller.restapi.dto.AssignmentExecutorPOJO;
+import com.rfeller.restapi.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +36,21 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public AssignmentDTO getById(Integer id) {
-        Assignment assignment = assignmentRespository.findById(id).orElse(null);
+        Assignment assignment = assignmentRespository.findById(id).orElseThrow(() -> new ApiException("Assignment with id " + id + " was not found"));
         AssignmentDTO assignmentDTO = assignmentConverter.convertEntityToDto(assignment);
 
         return assignmentDTO;
+    }
+
+    @Override
+    public AssignmentExecutorPOJO acceptAssignment(Integer id, AssignmentExecutorPOJO executor) {
+        Assignment assignment = assignmentRespository.findById(id)
+                .orElseThrow(() -> new ApiException("Assignment with id " + id + " was not found"));
+
+        assignment.setExecutor(executor.getExecutor());
+        assignmentRespository.save(assignment);
+
+        return executor;
     }
 
     @Override
@@ -52,7 +65,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public AssignmentDTO update(Integer id, AssignmentDTO assignmentDTO) {
-        Assignment existingAssignment = assignmentRespository.findById(id).orElse(null);
+        Assignment existingAssignment = assignmentRespository.findById(id).orElseThrow(() -> new ApiException("Assignment with id " + id + " was not found"));
         existingAssignment.setTitle(assignmentDTO.getTitle());
         existingAssignment.setDescription(assignmentDTO.getDescription());
 
