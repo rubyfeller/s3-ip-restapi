@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class Assignment {
@@ -26,6 +27,10 @@ public class Assignment {
     private String creator;
 
     private String executor;
+
+    private Date executionDateTime;
+
+    private String executionPrice;
 
     public Integer getId() {
         return id;
@@ -73,5 +78,21 @@ public class Assignment {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getExecutionDateTime() {
+        return executionDateTime;
+    }
+
+    public void setExecutionDateTime(Date executionDateTime) {
+        this.executionDateTime = executionDateTime;
+    }
+
+    public String getExecutionPrice() {
+        return executionPrice;
+    }
+
+    public void setExecutionPrice(String executionPrice) {
+        this.executionPrice = executionPrice;
     }
 }

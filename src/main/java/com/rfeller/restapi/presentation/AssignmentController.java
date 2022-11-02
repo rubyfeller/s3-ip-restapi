@@ -37,8 +37,8 @@ public class AssignmentController {
     }
 
     @PostMapping(path = "/accept/{id}")
-    public AssignmentExecutorPOJO acceptAssignment(@Valid @PathVariable Integer id, @RequestBody AssignmentExecutorPOJO executor) {
-        return assignmentService.acceptAssignment(id, executor);
+    public AssignmentExecutorPOJO acceptAssignment(@Valid @PathVariable Integer id, @RequestBody AssignmentExecutorPOJO assignmentExecutorPOJO) {
+        return assignmentService.acceptAssignment(id, assignmentExecutorPOJO);
     }
 
     @PutMapping(path = "/update/{id}")

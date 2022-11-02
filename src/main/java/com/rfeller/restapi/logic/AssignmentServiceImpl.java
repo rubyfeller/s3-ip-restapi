@@ -48,6 +48,8 @@ public class AssignmentServiceImpl implements AssignmentService {
                 .orElseThrow(() -> new ApiException("Assignment with id " + id + " was not found"));
 
         assignment.setExecutor(executor.getExecutor());
+        assignment.setExecutionPrice(executor.getExecutionPrice());
+        assignment.setExecutionDateTime(executor.getExecutionDateTime());
         assignmentRespository.save(assignment);
 
         return executor;

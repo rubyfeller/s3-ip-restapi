@@ -10,7 +10,7 @@ public interface AssignmentService {
 
     AssignmentDTO getById(Integer id);
 
-    AssignmentExecutorPOJO acceptAssignment(Integer id, AssignmentExecutorPOJO executor);
+    AssignmentExecutorPOJO acceptAssignment(Integer id, AssignmentExecutorPOJO assignmentExecutorPOJO);
 
     String delete(Integer id);
 

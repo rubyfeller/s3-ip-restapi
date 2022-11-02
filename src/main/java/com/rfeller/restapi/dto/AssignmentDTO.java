@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 public class AssignmentDTO {
@@ -22,4 +23,8 @@ public class AssignmentDTO {
     private String creator;
 
     private String executor;
+
+    private Date executionDateTime;
+
+    private Integer executionPrice;
 }
