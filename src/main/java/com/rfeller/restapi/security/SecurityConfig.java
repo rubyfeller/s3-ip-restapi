@@ -12,9 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 /**
  * Configures our application with Spring Security to restrict access to our API endpoints.
  */
-    @EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig {
-
     @Value("${auth0.audience}")
     private String audience;
 
@@ -37,7 +36,7 @@ public class SecurityConfig {
     @Bean
     JwtDecoder jwtDecoder() {
         /*
-        By default, Spring Security does not validate the "aud" claim of the token, to ensure that this token is
+        By default, Spring Security does not validate the audience claim of the token, to ensure that this token is
         indeed intended for our app. Adding our own validator is easy to do:
         */
 
