@@ -1,9 +1,11 @@
-FROM openjdk:16
+FROM eclipse-temurin:16-jdk-jammy
 
-EXPOSE 8080
+WORKDIR /app
 
-WORKDIR /applications
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
 
-COPY target/docker-restapi-0.0.1.jar /applications/restapi.jar
+COPY src ./src
 
-ENTRYPOINT ["java","-jar", "sample-application.jar"]
+CMD ["./mvnw", "spring-boot:run"]
