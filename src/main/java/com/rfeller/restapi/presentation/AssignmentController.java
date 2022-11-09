@@ -31,8 +31,14 @@ public class AssignmentController {
         return assignmentService.getAll();
     }
 
+    @GetMapping(path = "/getByUserId/{userId}")
+    public @ResponseBody Iterable<AssignmentDTO> getMyAssignments(@Valid @PathVariable String userId) {
+        return assignmentService.getByUserId(userId);
+    }
+
     @GetMapping(path = "/{id}")
-    public @ResponseBody AssignmentDTO getAssignmentById(@PathVariable Integer id) {
+    //@PreAuthorize("hasAuthority('read:entrepreneurAssignments')")
+    public @ResponseBody AssignmentDTO getAssignmentById(@Valid @PathVariable Integer id) {
         return assignmentService.getById(id);
     }
 

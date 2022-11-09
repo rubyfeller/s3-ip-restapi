@@ -35,6 +35,14 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
+    public Iterable<AssignmentDTO> getByUserId(String userId) {
+        List<Assignment> assignments = assignmentRespository.findAllByUserId(userId);
+        List<AssignmentDTO> assignmentDTOs = assignmentConverter.convertEntitiesToDtos(assignments);
+
+        return assignmentDTOs;
+    }
+
+    @Override
     public AssignmentDTO getById(Integer id) {
         Assignment assignment = assignmentRespository.findById(id).orElseThrow(() -> new ApiException("Assignment with id " + id + " was not found"));
         AssignmentDTO assignmentDTO = assignmentConverter.convertEntityToDto(assignment);
