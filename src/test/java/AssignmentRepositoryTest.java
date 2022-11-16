@@ -52,7 +52,7 @@ public class AssignmentRepositoryTest extends MySQLTestContainer {
 
         assignmentService.addAssignment(assignmentDTO);
 
-        assignmentService.delete(assignmentDTO.getId());
+        assignmentService.delete(1);
 
         List<Assignment> list = (List<Assignment>) assignmentRepository.findAll();
 
