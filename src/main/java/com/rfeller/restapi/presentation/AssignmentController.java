@@ -6,6 +6,7 @@ import com.rfeller.restapi.logic.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -37,12 +38,12 @@ public class AssignmentController {
     }
 
     @GetMapping(path = "/{id}")
-    //@PreAuthorize("hasAuthority('read:entrepreneurAssignments')")
     public @ResponseBody AssignmentDTO getAssignmentById(@Valid @PathVariable Integer id) {
         return assignmentService.getById(id);
     }
 
     @PostMapping(path = "/accept/{id}")
+    @PreAuthorize("hasAuthority('write:acceptAssignment')")
     public AssignmentExecutorPOJO acceptAssignment(@Valid @PathVariable Integer id, @RequestBody AssignmentExecutorPOJO assignmentExecutorPOJO) {
         return assignmentService.acceptAssignment(id, assignmentExecutorPOJO);
     }

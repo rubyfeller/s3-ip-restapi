@@ -1,7 +1,7 @@
 package com.rfeller.restapi.logic;
 
 import com.rfeller.restapi.converter.AssignmentConverter;
-import com.rfeller.restapi.dal.AssignmentRespository;
+import com.rfeller.restapi.dal.AssignmentRepository;
 import com.rfeller.restapi.dal.models.Assignment;
 import com.rfeller.restapi.dto.AssignmentDTO;
 import com.rfeller.restapi.dto.AssignmentExecutorPOJO;
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
     @Autowired
-    private AssignmentRespository assignmentRespository;
+    private AssignmentRepository assignmentRespository;
 
     @Autowired
     AssignmentConverter assignmentConverter;
