@@ -1,10 +1,9 @@
-package com.rfeller.restapi.logic;
-
 import com.rfeller.restapi.RestapiApplication;
 import com.rfeller.restapi.containers.MySQLTestContainer;
 import com.rfeller.restapi.dto.AssignmentDTO;
 import com.rfeller.restapi.dto.AssignmentExecutorPOJO;
 import com.rfeller.restapi.exception.ApiException;
+import com.rfeller.restapi.logic.AssignmentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
