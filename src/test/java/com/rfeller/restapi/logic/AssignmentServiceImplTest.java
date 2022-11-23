@@ -21,7 +21,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     private AssignmentService assignmentService;
 
     @Test
-    void When_addAssignment_Verify_Fields() {
+    public void When_addAssignment_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -38,7 +38,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    void When_getByUserId_Verify_userId() {
+    public void When_getByUserId_Verify_userId() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -51,7 +51,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    void When_getById_Verify_Fields() {
+    public void When_getById_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -67,7 +67,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    void When_acceptAssignment_Verify_Fields() {
+    public void When_acceptAssignment_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -89,7 +89,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    void When_acceptAssignment_InvalidId_CheckForError() {
+    public void When_acceptAssignment_InvalidId_CheckForError() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -107,7 +107,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    void delete() {
+    public void delete() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -123,7 +123,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    void update() {
+    public void update() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
