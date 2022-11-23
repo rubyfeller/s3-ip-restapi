@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,9 +28,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assignmentDTO.setUserId("1");
         assignmentDTO.setCreator("1");
 
-        assignmentService.addAssignment(assignmentDTO);
-
-        AssignmentDTO expectedAssignment = assignmentService.getById(1);
+        AssignmentDTO expectedAssignment = assignmentService.addAssignment(assignmentDTO);
 
         assertEquals(assignmentDTO.getTitle(), expectedAssignment.getTitle());
         assertEquals(assignmentDTO.getDescription(), expectedAssignment.getDescription());
@@ -39,13 +36,6 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assertEquals(assignmentDTO.getCreator(), expectedAssignment.getCreator());
 
     }
-
-//    @Test
-//    void When_getAll_Expect_Empty_List() {
-//        List<AssignmentDTO> list = (List<AssignmentDTO>) assignmentService.getAll();
-//
-//        assertEquals(0, list.size());
-//    }
 
     @Test
     void When_getByUserId_Verify_userId() {
@@ -55,11 +45,9 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assignmentDTO.setUserId("1");
         assignmentDTO.setCreator("1");
 
-        assignmentService.addAssignment(assignmentDTO);
+        AssignmentDTO expectedAssignment = assignmentService.addAssignment(assignmentDTO);
 
-        List<AssignmentDTO> expectedAssignment = (List<AssignmentDTO>) assignmentService.getByUserId("1");
-
-        assertEquals(assignmentDTO.getUserId(), expectedAssignment.get(0).getUserId());
+        assertEquals(assignmentDTO.getUserId(), expectedAssignment.getUserId());
     }
 
     @Test
@@ -70,9 +58,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assignmentDTO.setUserId("1");
         assignmentDTO.setCreator("1");
 
-        assignmentService.addAssignment(assignmentDTO);
-
-        AssignmentDTO expectedAssignment = assignmentService.getById(1);
+        AssignmentDTO expectedAssignment = assignmentService.addAssignment(assignmentDTO);
 
         assertEquals(assignmentDTO.getTitle(), expectedAssignment.getTitle());
         assertEquals(assignmentDTO.getDescription(), expectedAssignment.getDescription());
@@ -80,39 +66,31 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assertEquals(assignmentDTO.getCreator(), expectedAssignment.getCreator());
     }
 
-//    @Test
-//    void When_acceptAssignment_Verify_Fields() {
-//
-//        int assignmentId = 121;
-//
-//        AssignmentDTO assignmentDTO = new AssignmentDTO();
-//        assignmentDTO.setId(assignmentId);
-//        assignmentDTO.setTitle("test");
-//        assignmentDTO.setDescription("test");
-//        assignmentDTO.setUserId("1");
-//        assignmentDTO.setCreator("1");
-//
-//        assignmentService.addAssignment(assignmentDTO);
-//
-//        AssignmentExecutorPOJO assignmentExecutorPOJO = new AssignmentExecutorPOJO();
-//        assignmentExecutorPOJO.setExecutor("Ruby");
-//        assignmentExecutorPOJO.setExecutionPrice("300");
-//        assignmentExecutorPOJO.setExecutionDateTime(new Date());
-//
-//        AssignmentExecutorPOJO executor = assignmentService.acceptAssignment(assignmentId, assignmentExecutorPOJO);
-//
-//        assertEquals(executor.getExecutor(), assignmentExecutorPOJO.getExecutor());
-//        assertEquals(executor.getExecutionPrice(), assignmentExecutorPOJO.getExecutionPrice());
-//        assertEquals(executor.getExecutionDateTime(), assignmentExecutorPOJO.getExecutionDateTime());
-//    }
+    @Test
+    void When_acceptAssignment_Verify_Fields() {
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+        assignmentDTO.setTitle("test");
+        assignmentDTO.setDescription("test");
+        assignmentDTO.setUserId("1");
+        assignmentDTO.setCreator("1");
+
+        assignmentService.addAssignment(assignmentDTO);
+
+        AssignmentExecutorPOJO assignmentExecutorPOJO = new AssignmentExecutorPOJO();
+        assignmentExecutorPOJO.setExecutor("Ruby");
+        assignmentExecutorPOJO.setExecutionPrice("300");
+        assignmentExecutorPOJO.setExecutionDateTime(new Date());
+
+        AssignmentExecutorPOJO executor = assignmentService.acceptAssignment(1, assignmentExecutorPOJO);
+
+        assertEquals(executor.getExecutor(), assignmentExecutorPOJO.getExecutor());
+        assertEquals(executor.getExecutionPrice(), assignmentExecutorPOJO.getExecutionPrice());
+        assertEquals(executor.getExecutionDateTime(), assignmentExecutorPOJO.getExecutionDateTime());
+    }
 
     @Test
     void When_acceptAssignment_InvalidId_CheckForError() {
-
-        int assignmentId = 122;
-
         AssignmentDTO assignmentDTO = new AssignmentDTO();
-        assignmentDTO.setId(assignmentId);
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
         assignmentDTO.setUserId("1");
@@ -124,30 +102,25 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assignmentExecutorPOJO.setExecutionPrice("300");
         assignmentExecutorPOJO.setExecutionDateTime(new Date());
 
-        Throwable exception = assertThrows(ApiException.class, () -> assignmentService.acceptAssignment(assignmentId, assignmentExecutorPOJO));
-        assertEquals("Assignment with id " + assignmentId + " was not found", exception.getMessage());
+        Throwable exception = assertThrows(ApiException.class, () -> assignmentService.acceptAssignment(123, assignmentExecutorPOJO));
+        assertEquals("Assignment with id " + 123 + " was not found", exception.getMessage());
     }
 
-//    @Test
-//    void delete() {
-//
-//        int assignmentId = 123;
-//
-//        AssignmentDTO assignmentDTO = new AssignmentDTO();
-//        assignmentDTO.setTitle("test");
-//        assignmentDTO.setDescription("test");
-//        assignmentDTO.setUserId("1");
-//        assignmentDTO.setCreator("1");
-//
-//        assignmentService.addAssignment(assignmentDTO);
-//
-//        AssignmentDTO generatedAssignment = assignmentService.getById(assignmentId);
-//
-//        assignmentService.delete(assignmentId);
-//
-//        Throwable exception = assertThrows(ApiException.class, () -> assignmentService.getById(assignmentId));
-//        assertEquals("Assignment with id " + assignmentId + " was not found", exception.getMessage());
-//    }
+    @Test
+    void delete() {
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+        assignmentDTO.setTitle("test");
+        assignmentDTO.setDescription("test");
+        assignmentDTO.setUserId("1");
+        assignmentDTO.setCreator("1");
+
+        AssignmentDTO addedAssignment = assignmentService.addAssignment(assignmentDTO);
+
+        assignmentService.delete(addedAssignment.getId());
+
+        Throwable exception = assertThrows(ApiException.class, () -> assignmentService.getById(addedAssignment.getId()));
+        assertEquals("Assignment with id " + addedAssignment.getId() + " was not found", exception.getMessage());
+    }
 
     @Test
     void update() {
@@ -157,7 +130,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assignmentDTO.setUserId("1");
         assignmentDTO.setCreator("1");
 
-        assignmentService.addAssignment(assignmentDTO);
+        AssignmentDTO addedAssignment = assignmentService.addAssignment(assignmentDTO);
 
         AssignmentDTO updatedAssignmentDTO = new AssignmentDTO();
         updatedAssignmentDTO.setTitle("test updated");
@@ -165,9 +138,9 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         updatedAssignmentDTO.setUserId("2");
         updatedAssignmentDTO.setCreator("2");
 
-        assignmentService.update(1, updatedAssignmentDTO);
+        assignmentService.update(addedAssignment.getId(), updatedAssignmentDTO);
 
-        AssignmentDTO retrievedUpdatedAssignment = assignmentService.getById(1);
+        AssignmentDTO retrievedUpdatedAssignment = assignmentService.getById(addedAssignment.getId());
 
         assertEquals(updatedAssignmentDTO.getTitle(), retrievedUpdatedAssignment.getTitle());
     }
