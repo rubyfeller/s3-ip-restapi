@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,6 +21,21 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
 
     @Autowired
     private AssignmentService assignmentService;
+
+    @Test
+    public void When_getAll_Verify_Fields() {
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+        assignmentDTO.setTitle("test");
+        assignmentDTO.setDescription("test");
+        assignmentDTO.setUserId("1");
+        assignmentDTO.setCreator("1");
+
+        AssignmentDTO expectedAssignment = assignmentService.addAssignment(assignmentDTO);
+
+        List<AssignmentDTO> receivedAssignments = (List<AssignmentDTO>) assignmentService.getAll();
+
+        assertEquals(expectedAssignment.getTitle(), receivedAssignments.get(expectedAssignment.getId() - 1).getTitle());
+    }
 
     @Test
     public void When_addAssignment_Verify_Fields() {
@@ -39,7 +55,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_getByUserId_Verify_userId() {
+    public void When_getByUserId_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -49,6 +65,12 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         AssignmentDTO expectedAssignment = assignmentService.addAssignment(assignmentDTO);
 
         assertEquals(assignmentDTO.getUserId(), expectedAssignment.getUserId());
+        assertEquals(assignmentDTO.getTitle(), expectedAssignment.getTitle());
+        assertEquals(assignmentDTO.getDescription(), expectedAssignment.getDescription());
+        assertEquals(assignmentDTO.getCreator(), expectedAssignment.getCreator());
+        assertEquals(assignmentDTO.getExecutionDateTime(), expectedAssignment.getExecutionDateTime());
+        assertEquals(assignmentDTO.getExecutor(), expectedAssignment.getExecutor());
+        assertEquals(assignmentDTO.getExecutionPrice(), expectedAssignment.getExecutionPrice());
     }
 
     @Test
