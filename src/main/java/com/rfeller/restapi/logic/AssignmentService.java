@@ -13,7 +13,7 @@ public interface AssignmentService {
 
     AssignmentExecutorPOJO acceptAssignment(Integer id, AssignmentExecutorPOJO assignmentExecutorPOJO);
 
-    String delete(Integer id);
+    boolean delete(Integer id);
 
     AssignmentDTO update(Integer id, AssignmentDTO assignmentDTO);
 }

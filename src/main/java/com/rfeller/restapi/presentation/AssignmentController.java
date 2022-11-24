@@ -54,8 +54,11 @@ public class AssignmentController {
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    public @ResponseBody String deleteAssignment(@Valid @PathVariable Integer id) {
-        return assignmentService.delete(id);
+    public ResponseEntity<String> deleteAssignment(@Valid @PathVariable Integer id) {
+        if (assignmentService.delete(id)) {
+            return ResponseEntity.ok("Succesfully deleted assignment");
+        }
+        return ResponseEntity.status(404).body("Assignment to delete not found");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

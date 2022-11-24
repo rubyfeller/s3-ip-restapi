@@ -64,13 +64,13 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public String delete(Integer id) {
+    public boolean delete(Integer id) {
         if (assignmentRespository.existsById(id)) {
             assignmentRespository.deleteById(id);
         } else {
-            return "No assignment found";
+            return false;
         }
-        return "Deleted assignment";
+        return true;
     }
 
     @Override
