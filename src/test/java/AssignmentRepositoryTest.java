@@ -1,12 +1,12 @@
-package com.rfeller.restapi.dal;
-
 import com.rfeller.restapi.RestapiApplication;
 import com.rfeller.restapi.containers.MySQLTestContainer;
+import com.rfeller.restapi.dal.AssignmentRepository;
 import com.rfeller.restapi.dal.models.Assignment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.shaded.org.hamcrest.CoreMatchers;
 
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
 
+@ActiveProfiles("repositoryTest")
 @SpringBootTest(classes = RestapiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AssignmentRepositoryTest extends MySQLTestContainer {
 
