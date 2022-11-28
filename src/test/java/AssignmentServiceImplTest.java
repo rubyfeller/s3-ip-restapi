@@ -1,9 +1,11 @@
 import com.rfeller.restapi.RestapiApplication;
 import com.rfeller.restapi.containers.MySQLTestContainer;
+import com.rfeller.restapi.dal.AssignmentRepository;
 import com.rfeller.restapi.dto.AssignmentDTO;
 import com.rfeller.restapi.dto.AssignmentExecutorPOJO;
 import com.rfeller.restapi.exception.ApiException;
 import com.rfeller.restapi.logic.AssignmentService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,14 +20,22 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("serviceTest")
 @SpringBootTest(classes = RestapiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AssignmentServiceImplTest extends MySQLTestContainer {
-
     @Autowired
     private AssignmentService assignmentService;
+
+
+    @Autowired
+    private AssignmentRepository assignmentRepository;
+
+    @BeforeEach
+    public void testConfig() {
+        assignmentRepository.deleteAll();
+    }
 
     @Test
     public void When_getAll_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
-        assignmentDTO.setTitle("test");
+        assignmentDTO.setTitle("test f");
         assignmentDTO.setDescription("test");
         assignmentDTO.setUserId("1");
         assignmentDTO.setCreator("1");
@@ -34,7 +44,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
 
         List<AssignmentDTO> receivedAssignments = (List<AssignmentDTO>) assignmentService.getAll();
 
-        assertEquals(expectedAssignment.getTitle(), receivedAssignments.get(expectedAssignment.getId() - 1).getTitle());
+        assertEquals(expectedAssignment.getTitle(), receivedAssignments.get(0).getTitle());
     }
 
     @Test
@@ -97,14 +107,14 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         assignmentDTO.setUserId("1");
         assignmentDTO.setCreator("1");
 
-        assignmentService.addAssignment(assignmentDTO);
+         AssignmentDTO expectedAssignnment = assignmentService.addAssignment(assignmentDTO);
 
         AssignmentExecutorPOJO assignmentExecutorPOJO = new AssignmentExecutorPOJO();
         assignmentExecutorPOJO.setExecutor("Ruby");
         assignmentExecutorPOJO.setExecutionPrice("300");
         assignmentExecutorPOJO.setExecutionDateTime(new Date());
 
-        AssignmentExecutorPOJO executor = assignmentService.acceptAssignment(1, assignmentExecutorPOJO);
+        AssignmentExecutorPOJO executor = assignmentService.acceptAssignment(expectedAssignnment.getId(), assignmentExecutorPOJO);
 
         assertEquals(executor.getExecutor(), assignmentExecutorPOJO.getExecutor());
         assertEquals(executor.getExecutionPrice(), assignmentExecutorPOJO.getExecutionPrice());
@@ -130,7 +140,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void delete() {
+    public void When_delete_Verify_Not_Found() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -146,7 +156,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void update() {
+    public void When_update_verify_updated_fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -158,13 +168,12 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
         AssignmentDTO updatedAssignmentDTO = new AssignmentDTO();
         updatedAssignmentDTO.setTitle("test updated");
         updatedAssignmentDTO.setDescription("test updated");
-        updatedAssignmentDTO.setUserId("2");
-        updatedAssignmentDTO.setCreator("2");
 
         assignmentService.update(addedAssignment.getId(), updatedAssignmentDTO);
 
         AssignmentDTO retrievedUpdatedAssignment = assignmentService.getById(addedAssignment.getId());
 
         assertEquals(updatedAssignmentDTO.getTitle(), retrievedUpdatedAssignment.getTitle());
+        assertEquals(updatedAssignmentDTO.getDescription(), retrievedUpdatedAssignment.getDescription());
     }
 }

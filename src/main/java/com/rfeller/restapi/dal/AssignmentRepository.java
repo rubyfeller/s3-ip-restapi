@@ -12,6 +12,5 @@ import java.util.List;
 @Repository
 public interface AssignmentRepository extends CrudRepository<Assignment, Integer> {
     List<Assignment> findAllByUserId(@NotNull(message = "No userId given") String userId);
-
 }
 
