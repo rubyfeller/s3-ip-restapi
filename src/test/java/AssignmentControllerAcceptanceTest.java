@@ -36,7 +36,7 @@ class AssignmentControllerAcceptanceTest {
     private String url;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         restTemplate = new TestRestTemplate();
         url = "http://localhost:" + randomServerPort + "/assignment" + "/add";
 
@@ -45,7 +45,7 @@ class AssignmentControllerAcceptanceTest {
     }
 
     @Test
-    void When_Add_Assignment_Without_Authorization_Unauthorized_401() {
+    public void When_Add_Assignment_Without_Authorization_Unauthorized_401() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
 
         ResponseEntity<AssignmentDTO> result = restTemplate.postForEntity(url, assignmentDTO, AssignmentDTO.class);
@@ -60,7 +60,7 @@ class AssignmentControllerAcceptanceTest {
 
     @Test
     @WithMockUser
-    void When_Add_Assignment_With_Authorization_Mock_Succeed() throws Exception {
+    public void When_Add_Assignment_With_Authorization_Mock_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
