@@ -7,19 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = RestapiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -33,35 +28,18 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     @LocalServerPort
     int randomServerPort;
 
-    private TestRestTemplate restTemplate;
     private String url;
 
     @BeforeEach
     public void setUp() {
-        restTemplate = new TestRestTemplate();
-        url = "http://localhost:" + randomServerPort + "/assignment" + "/add";
+        url = "http://localhost:" + randomServerPort + "/assignment";
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
     }
 
     @Test
-    public void When_Add_Assignment_Without_Authorization_Unauthorized_401() {
-        AssignmentDTO assignmentDTO = new AssignmentDTO();
-
-        ResponseEntity<AssignmentDTO> result = restTemplate.postForEntity(url, assignmentDTO, AssignmentDTO.class);
-
-        assignmentDTO.setUserId("1");
-        assignmentDTO.setTitle("Test gig");
-        assignmentDTO.setDescription("Testing");
-        assignmentDTO.setCreator("Tester");
-
-        assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
-    }
-
-    @Test
-    @WithMockUser
-    void When_Add_Assignment_With_Authorization_Mock_Succeed() throws Exception {
+    public void When_Add_Assignment_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
@@ -71,11 +49,135 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
         assignmentDTO.setDescription("Testing");
         assignmentDTO.setCreator("Tester");
 
-        mockMvc.perform(MockMvcRequestBuilders.post(url)
+        mockMvc.perform(MockMvcRequestBuilders.post(url + "/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(assignmentDTO))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Assignment valid"));
+    }
+
+    @Test
+    public void When_Add_Invalid_Assignment_Fail() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+
+        assignmentDTO.setTitle("Test gig");
+        assignmentDTO.setDescription("Testing");
+        assignmentDTO.setCreator("Tester");
+
+        mockMvc.perform(MockMvcRequestBuilders.post(url + "/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assignmentDTO))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void When_Get_Assignments_Succeed() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/all")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void When_Add_Assignment_And_Get_Assignment_By_Id_Succeed() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+
+        assignmentDTO.setUserId("1");
+        assignmentDTO.setTitle("Test gig");
+        assignmentDTO.setDescription("Testing");
+        assignmentDTO.setCreator("Tester");
+
+        mockMvc.perform(MockMvcRequestBuilders.post(url + "/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assignmentDTO))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Assignment valid"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void When_Add_Assignment_And_Get_Assignment_By_User_Id_Succeed() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+
+        assignmentDTO.setUserId("1");
+        assignmentDTO.setTitle("Test gig");
+        assignmentDTO.setDescription("Testing");
+        assignmentDTO.setCreator("Tester");
+
+        mockMvc.perform(MockMvcRequestBuilders.post(url + "/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assignmentDTO))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Assignment valid"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/getByUserId/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void When_Add_Assignment_And_Update_Assignment_Succeed() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+
+        assignmentDTO.setUserId("1");
+        assignmentDTO.setTitle("Test gig");
+        assignmentDTO.setDescription("Testing");
+        assignmentDTO.setCreator("Tester");
+
+        mockMvc.perform(MockMvcRequestBuilders.post(url + "/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assignmentDTO))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Assignment valid"));
+
+        AssignmentDTO assignmentDTOUpdated = new AssignmentDTO();
+
+        assignmentDTOUpdated.setTitle("Test gig updated");
+        assignmentDTOUpdated.setDescription("Testing updating");
+
+        mockMvc.perform(MockMvcRequestBuilders.put(url + "/update/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assignmentDTOUpdated))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void When_Add_Assignment_And_Delete_Assignment_Succeed() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+
+        assignmentDTO.setUserId("1");
+        assignmentDTO.setTitle("Test gig");
+        assignmentDTO.setDescription("Testing");
+        assignmentDTO.setCreator("Tester");
+
+        mockMvc.perform(MockMvcRequestBuilders.post(url + "/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(assignmentDTO))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Assignment valid"));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(url + "/delete/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Successfully deleted assignment"));
     }
 }
