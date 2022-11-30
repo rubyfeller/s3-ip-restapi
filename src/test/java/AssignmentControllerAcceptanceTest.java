@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rfeller.restapi.RestapiApplication;
+import com.rfeller.restapi.containers.MySQLTestContainer;
 import com.rfeller.restapi.dto.AssignmentDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = RestapiApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class AssignmentControllerAcceptanceTest {
+class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     @Autowired
     private MockMvc mockMvc;
 
@@ -60,7 +61,7 @@ class AssignmentControllerAcceptanceTest {
 
     @Test
     @WithMockUser
-    public void When_Add_Assignment_With_Authorization_Mock_Succeed() throws Exception {
+    void When_Add_Assignment_With_Authorization_Mock_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
