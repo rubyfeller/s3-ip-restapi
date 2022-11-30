@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -158,6 +159,7 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     }
 
     @Test
+    @Transactional
     public void When_Add_Assignment_And_Delete_Assignment_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
