@@ -32,7 +32,7 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     private String url;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         url = "http://localhost:" + randomServerPort + "/assignment";
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -40,7 +40,7 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_Add_Assignment_Succeed() throws Exception {
+    void When_Add_Assignment_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
@@ -59,7 +59,7 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_Add_Invalid_Assignment_Fail() throws Exception {
+    void When_Add_Invalid_Assignment_Fail() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
@@ -76,14 +76,14 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_Get_Assignments_Succeed() throws Exception {
+    void When_Get_Assignments_Succeed() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(url + "/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void When_Add_Assignment_And_Get_Assignment_By_Id_Succeed() throws Exception {
+    void When_Add_Assignment_And_Get_Assignment_By_Id_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
@@ -106,7 +106,7 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_Add_Assignment_And_Get_Assignment_By_User_Id_Succeed() throws Exception {
+    void When_Add_Assignment_And_Get_Assignment_By_User_Id_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
@@ -129,7 +129,7 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_Add_Assignment_And_Update_Assignment_Succeed() throws Exception {
+    void When_Add_Assignment_And_Update_Assignment_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();
@@ -160,7 +160,7 @@ class AssignmentControllerAcceptanceTest extends MySQLTestContainer {
 
     @Test
     @Transactional
-    public void When_Add_Assignment_And_Delete_Assignment_Succeed() throws Exception {
+    void When_Add_Assignment_And_Delete_Assignment_Succeed() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AssignmentDTO assignmentDTO = new AssignmentDTO();

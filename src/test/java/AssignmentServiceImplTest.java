@@ -28,12 +28,12 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     private AssignmentRepository assignmentRepository;
 
     @BeforeEach
-    public void testConfig() {
+    void testConfig() {
         assignmentRepository.deleteAll();
     }
 
     @Test
-    public void When_getAll_Verify_Fields() {
+    void When_getAll_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test f");
         assignmentDTO.setDescription("test");
@@ -48,7 +48,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_addAssignment_Verify_Fields() {
+    void When_addAssignment_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -65,7 +65,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_getByUserId_Verify_Fields() {
+    void When_getByUserId_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -84,7 +84,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_getById_Verify_Fields() {
+    void When_getById_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -100,14 +100,14 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_acceptAssignment_Verify_Fields() {
+    void When_acceptAssignment_Verify_Fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
         assignmentDTO.setUserId("1");
         assignmentDTO.setCreator("1");
 
-         AssignmentDTO expectedAssignnment = assignmentService.addAssignment(assignmentDTO);
+        AssignmentDTO expectedAssignnment = assignmentService.addAssignment(assignmentDTO);
 
         AssignmentExecutorPOJO assignmentExecutorPOJO = new AssignmentExecutorPOJO();
         assignmentExecutorPOJO.setExecutor("Ruby");
@@ -122,7 +122,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_acceptAssignment_InvalidId_CheckForError() {
+    void When_acceptAssignment_InvalidId_CheckForError() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -140,7 +140,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_delete_Verify_Not_Found() {
+    void When_delete_Verify_Not_Found() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");
@@ -156,7 +156,7 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
     }
 
     @Test
-    public void When_update_verify_updated_fields() {
+    void When_update_verify_updated_fields() {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
         assignmentDTO.setTitle("test");
         assignmentDTO.setDescription("test");

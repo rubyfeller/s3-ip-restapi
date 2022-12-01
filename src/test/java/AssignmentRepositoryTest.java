@@ -22,7 +22,7 @@ class AssignmentRepositoryTest extends MySQLTestContainer {
     private AssignmentRepository assignmentRepository;
 
     @Test
-    public void When_Get_All_By_UserId_Verify_Assignment() {
+    void When_Get_All_By_UserId_Verify_Assignment() {
         Assignment assignment = new Assignment();
 
         assignment.setTitle("test");
