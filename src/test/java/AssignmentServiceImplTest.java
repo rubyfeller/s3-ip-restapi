@@ -151,7 +151,9 @@ class AssignmentServiceImplTest extends MySQLTestContainer {
 
         assignmentService.delete(addedAssignment.getId());
 
-        Throwable exception = assertThrows(ApiException.class, () -> assignmentService.getById(addedAssignment.getId()));
+        Integer addedAssignmentId = addedAssignment.getId();
+
+        Throwable exception = assertThrows(ApiException.class, () -> assignmentService.getById(addedAssignmentId));
         assertEquals("Assignment with id " + addedAssignment.getId() + " was not found", exception.getMessage());
     }
 
