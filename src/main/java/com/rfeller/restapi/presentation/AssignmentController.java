@@ -6,6 +6,7 @@ import com.rfeller.restapi.logic.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -31,12 +32,18 @@ public class AssignmentController {
         return assignmentService.getAll();
     }
 
+    @GetMapping(path = "/getByUserId/{userId}")
+    public @ResponseBody Iterable<AssignmentDTO> getMyAssignments(@Valid @PathVariable String userId) {
+        return assignmentService.getByUserId(userId);
+    }
+
     @GetMapping(path = "/{id}")
-    public @ResponseBody AssignmentDTO getAssignmentById(@PathVariable Integer id) {
+    public @ResponseBody AssignmentDTO getAssignmentById(@Valid @PathVariable Integer id) {
         return assignmentService.getById(id);
     }
 
     @PostMapping(path = "/accept/{id}")
+    @PreAuthorize("hasAuthority('write:acceptAssignment')")
     public AssignmentExecutorPOJO acceptAssignment(@Valid @PathVariable Integer id, @RequestBody AssignmentExecutorPOJO assignmentExecutorPOJO) {
         return assignmentService.acceptAssignment(id, assignmentExecutorPOJO);
     }
@@ -47,8 +54,11 @@ public class AssignmentController {
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    public @ResponseBody String deleteAssignment(@Valid @PathVariable Integer id) {
-        return assignmentService.delete(id);
+    public ResponseEntity<String> deleteAssignment(@Valid @PathVariable Integer id) {
+        if (assignmentService.delete(id)) {
+            return ResponseEntity.ok("Successfully deleted assignment");
+        }
+        return ResponseEntity.status(404).body("Assignment to delete not found");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

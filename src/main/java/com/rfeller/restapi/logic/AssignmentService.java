@@ -8,11 +8,12 @@ public interface AssignmentService {
 
     Iterable<AssignmentDTO> getAll();
 
+    Iterable<AssignmentDTO> getByUserId(String userId);
     AssignmentDTO getById(Integer id);
 
     AssignmentExecutorPOJO acceptAssignment(Integer id, AssignmentExecutorPOJO assignmentExecutorPOJO);
 
-    String delete(Integer id);
+    boolean delete(Integer id);
 
     AssignmentDTO update(Integer id, AssignmentDTO assignmentDTO);
 }

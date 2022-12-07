@@ -1,7 +1,7 @@
 package com.rfeller.restapi.logic;
 
 import com.rfeller.restapi.converter.AssignmentConverter;
-import com.rfeller.restapi.dal.AssignmentRespository;
+import com.rfeller.restapi.dal.AssignmentRepository;
 import com.rfeller.restapi.dal.models.Assignment;
 import com.rfeller.restapi.dto.AssignmentDTO;
 import com.rfeller.restapi.dto.AssignmentExecutorPOJO;
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
     @Autowired
-    private AssignmentRespository assignmentRespository;
+    private AssignmentRepository assignmentRespository;
 
     @Autowired
     AssignmentConverter assignmentConverter;
@@ -29,17 +29,22 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Iterable<AssignmentDTO> getAll() {
         List<Assignment> assignments = (List<Assignment>) assignmentRespository.findAll();
-        List<AssignmentDTO> assignmentDTOs = assignmentConverter.convertEntitiesToDtos(assignments);
 
-        return assignmentDTOs;
+        return assignmentConverter.convertEntitiesToDtos(assignments);
+    }
+
+    @Override
+    public Iterable<AssignmentDTO> getByUserId(String userId) {
+        List<Assignment> assignments = assignmentRespository.findAllByUserId(userId);
+
+        return assignmentConverter.convertEntitiesToDtos(assignments);
     }
 
     @Override
     public AssignmentDTO getById(Integer id) {
         Assignment assignment = assignmentRespository.findById(id).orElseThrow(() -> new ApiException("Assignment with id " + id + " was not found"));
-        AssignmentDTO assignmentDTO = assignmentConverter.convertEntityToDto(assignment);
 
-        return assignmentDTO;
+        return assignmentConverter.convertEntityToDto(assignment);
     }
 
     @Override
@@ -56,13 +61,13 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public String delete(Integer id) {
+    public boolean delete(Integer id) {
         if (assignmentRespository.existsById(id)) {
             assignmentRespository.deleteById(id);
         } else {
-            return "No assignment found";
+            return false;
         }
-        return "Deleted assignment";
+        return true;
     }
 
     @Override

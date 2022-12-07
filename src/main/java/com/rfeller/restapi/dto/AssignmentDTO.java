@@ -26,5 +26,5 @@ public class AssignmentDTO {
 
     private Date executionDateTime;
 
-    private Integer executionPrice;
+    private String executionPrice;
 }
