@@ -31,6 +31,7 @@ public class SecurityConfig {
         an OAuth2 Resource Server, using JWT validation.
         */
         http.authorizeRequests()
+                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
