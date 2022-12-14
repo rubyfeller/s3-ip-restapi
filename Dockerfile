@@ -2,8 +2,11 @@ FROM eclipse-temurin:11-jdk-jammy
 
 WORKDIR /app
 
+RUN chmod +x mvnw
+
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
+
 RUN mkdir /opt/app
 
 COPY src ./src
