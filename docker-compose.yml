@@ -5,17 +5,17 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - docker-mysql
+      - restapi-mysql
     depends_on:
       - docker-mysql
 
   docker-mysql:
     image: mysql:8.0.29
     networks:
-      - docker-mysql
+      - restapi-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=database
 
 networks:
-  docker-mysql:
+  restapi-mysql:
