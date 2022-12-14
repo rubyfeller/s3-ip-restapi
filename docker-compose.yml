@@ -1,36 +1,21 @@
-version: '3.8'
-#services:
-#  db:
-#    image: mysql:8.0.29
-#    restart: always
-#    environment:
-#      - MYSQL_ROOT_PASSWORD='password'
-#    ports:
-#      - '3306:3306'
-#    volumes:
-#      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-#volumes:
-#  db:
-#    driver: local
-
+version: "3.8"
 services:
-  docker-mysql:
-    image: mysql:8.0.29
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=database
-      - MYSQL_PASSWORD=root
-    ports:
-      - 3306:3306
-
   restapi-jbdc-container:
     image: ghcr.io/rubyfeller/s3-ip-restapi:master
     ports:
-      - 8080:8080
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/database?autoReconnect=true&useSSL=false
+      - "8080:8080"
+    networks:
+      - docker-mysql
     depends_on:
       - docker-mysql
+
+  docker-mysql:
+    image: mysql:8.0.29
+    networks:
+      - docker-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=database
 
 networks:
   docker-mysql:
