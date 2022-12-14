@@ -1,6 +1,6 @@
 FROM eclipse-temurin:11-jdk-jammy
 
-RUN chmod +x mvnw
+RUN ["chmod",  "+x", "mvnw"]
 
 WORKDIR /app
 
