@@ -4,15 +4,24 @@ Rest API S3-IP
 Details of this application can be found in my [portfolio](https://github.com/rubyfeller/s3-portfolio/blob/main/portfolio/portfolio.md#webapplicatie).
 
 ## Deployment instructions
-Pull the Docker image
+Pull the Docker image:
 ````
-docker pull ghcr.io/rubyfeller/s3-ip-restapi:unique_tag
+docker pull ghcr.io/rubyfeller/s3-ip-restapi:master
 ````
 
-Run the application 
+Note: master tag will pull the latest version. It's also possible to use older versions with the SHA as a tag.
+
+Run the multi-container application using **Docker compose**:
 ````
-docker run --name s3-ip-restapi -p 80:8080 -d ghcr.io/rubyfeller/s3-ip-restapi:unique_tag
+docker-compose up
 ````
+
+Or manage settings manually by running:
+````
+docker container run --network docker-mysql --name restapi-jdbc-container -p 8080:8080 -d ghcr.io/rubyfeller/s3-ip-restapi
+````
+
+The application will automaticly run (Rest API: port 8080, MySQL database: port 3306).
 
 ### Issues
 
